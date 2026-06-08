@@ -1,0 +1,45 @@
+/* Custom resets and smooth layout behaviours */
+body {
+    scroll-behavior: smooth;
+}
+
+/* Custom project card styling with sophisticated 3D translation effects */
+.project-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-6px);
+}
+
+/* Dynamic glow adaptations depending on active theme class */
+.dark .project-card:hover {
+    box-shadow: 0 12px 30px -10px rgba(20, 184, 166, 0.25);
+    border-color: rgba(20, 184, 166, 0.4);
+}
+
+/* Clean, crisp subtle shadow for light mode cards */
+.light .project-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.light .project-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    border-color: rgba(13, 148, 136, 0.3);
+}
+
+/* Entry animations on scroll viewports */
+.reveal {
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* Custom background blur variations */
+.backdrop-blur-md {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
