@@ -21,13 +21,13 @@ const technicalSkills = [
             { name: "TensorFlow", icon: "devicon-tensorflow-original colored" }
         ] 
     },
-    { 
-        category: "Database", 
-        items: [
-            { name: "MongoDB", icon: "devicon-mongodb-plain colored" }, 
-            { name: "PostgreSQL", icon: "devicon-postgresql-plain colored" }, 
-            { name: "MySQL", icon: "devicon-mysql-original colored" }
-        ] 
+    {
+    category: "AI & Intelligent Systems",
+    items: [
+        { name: "AI Agents", icon: "" },
+        { name: "Machine Learning", icon: "" },
+        { name: "Computer Vision", icon: "" }
+    ]
     },
     { 
         category: "Core Protocols & Engineering", 
@@ -35,9 +35,15 @@ const technicalSkills = [
             { name: "REST APIs", icon: "" }, // Left blank intentionally as requested (Core engineering values only)
             { name: "JWT Auth", icon: "" }, 
             { name: "Socket.IO Architecture", icon: "" }, 
-            { name: "RBAC Routing", icon: "" },
-            { name: "Computer Vision", icon: "" },
-            { name: "Machine Learning", icon: "" }
+            { name: "RBAC Routing", icon: "" }
+        ] 
+    },
+    { 
+        category: "Database", 
+        items: [
+            { name: "MongoDB", icon: "devicon-mongodb-plain colored" }, 
+            { name: "PostgreSQL", icon: "devicon-postgresql-plain colored" }, 
+            { name: "MySQL", icon: "devicon-mysql-original colored" }
         ] 
     }
 ];
@@ -284,3 +290,85 @@ function showToast(message, type = "success") {
         });
     }, 4000);
 }
+
+
+/* Back-to-Top button: positioning + animated arrow */
+(function () {
+    const backToTopButton = document.getElementById("back-to-top");
+
+    if (!backToTopButton) return;
+
+    // Position the button 55px above the bottom-right edge.
+    backToTopButton.style.position = "fixed";
+    backToTopButton.style.right = "24px";
+    backToTopButton.style.setProperty("bottom", "55px", "important");
+    backToTopButton.style.zIndex = "99999";
+
+    // Add the arrow animation once.
+    if (!document.getElementById("back-to-top-animation-style")) {
+        const style = document.createElement("style");
+        style.id = "back-to-top-animation-style";
+        style.textContent = `
+            @keyframes backToTopArrowUp {
+                0%   { transform: translateY(10px); opacity: 0.3; }
+                60%  { transform: translateY(-5px); opacity: 1; }
+                100% { transform: translateY(0); opacity: 1; }
+            }
+
+            #back-to-top .back-to-top-arrow-animated {
+                display: inline-block;
+                animation: backToTopArrowUp 0.65s ease-out both;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                #back-to-top .back-to-top-arrow-animated {
+                    animation: none;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Find the arrow already inside the button.
+    const arrow = backToTopButton.querySelector("span, i, svg");
+
+    let wasVisible = false;
+
+    function updateBackToTopButton() {
+        const shouldShow = window.scrollY > 300;
+
+        backToTopButton.classList.toggle("is-visible", shouldShow);
+
+        // Set visibility directly so the button works even without CSS.
+        backToTopButton.style.opacity = shouldShow ? "1" : "0";
+        backToTopButton.style.visibility = shouldShow ? "visible" : "hidden";
+        backToTopButton.style.pointerEvents = shouldShow ? "auto" : "none";
+
+        if (shouldShow && !wasVisible && arrow) {
+            arrow.classList.remove("back-to-top-arrow-animated");
+
+            // Restart the arrow animation whenever the button appears.
+            void arrow.offsetWidth;
+            arrow.classList.add("back-to-top-arrow-animated");
+        }
+
+        if (!shouldShow && arrow) {
+            arrow.classList.remove("back-to-top-arrow-animated");
+        }
+
+        wasVisible = shouldShow;
+    }
+
+    window.addEventListener("scroll", updateBackToTopButton, {
+        passive: true
+    });
+
+    backToTopButton.addEventListener("click", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+
+    updateBackToTopButton();
+})();
